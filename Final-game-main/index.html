@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Car Simulation</title>
+        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+        
+        <script
+          src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+        <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+        <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+        <script src="./Js/drive.js"></script>
+        <script src="./Js/game.js"></script>
+    </head>
+
+    <body>
+        <a-scene id="scene" background="color: #ade7ed" inspector-plugin-recast>
+            
+            <a-assets>
+                <a-asset-item id="steering_wheel" src="./assets/steering_wheel/scene.gltf"></a-asset-item>
+                <a-asset-item id="city" src="./assets/low_poly_city/scene.gltf"></a-asset-item>
+
+            <a-assets-item id="collider" src="./assets/navmesh.gltf"></a-assets-item>
+            </a-assets>
+
+            <!-- Light -->
+            <a-entity light="type:ambient; color:white; intensity:1.5"></a-entity>
+            <a-entitiy light="type:directional; color:#a4a4aa; intensity:0.6" position="0 15 20"></a-entitiy>
+
+            <a-entity id="citySet" position="10 -2.63 -150" scale="1 1 1" rotation="0 90 0" gltf-model="#city"></a-entity>
+
+            <!-- Nav Mesh -->
+            <a-entity id="navigation-mesh" gltf-model="#collider" position="0 10 0" visible="true" nav-mesh></a-entity>
+            
+
+            <!-- Boundry -->
+            <a-box id="b1" material="height:400; metalness:0.34" color="#1faf84" 
+            ="depth:400; height:50; width:5" position="-76.79446 -8.30764 -164.16795"></a-box>
+
+            <a-box id="b2" material="height:400; metalness:0.34" color="#1faf84" 
+            geometry="depth:400; height:50; width:5" position="75.38341 -8.30764 -164.16795"></a-box>
+
+            <a-box id="b3" material="height:400; metalness:0.34" color="#1faf84" 
+            geometry="depth:5; height:50; width:200" position="-0.33183 -7.8421 -359.48732"></a-box>
+
+            <a-box id="b4" material="height:400; metalness:0.34" color="#1faf84" 
+            geometry="depth:5; height:50; width:200" position="-0.33183 -7.8421 31.16964"></a-box>
+             <!--Ground-->
+            <a-plane id="ground" geometry="height: 400; width: 200; depth: 10" repeat="5 5" position="0 -10 -163.73258"
+                rotation="-90 0 0" color="yellow" visible="false">
+            </a-plane>
+            <!-- Navigation Mesh -->
+            <a-entity id="navigation-mesh" gltf-model="#collider" position="0 10 0" visible="false" nav-mesh>
+            </a-entity>
+            
+            <a-entity id="camera-rig" movement-controls="speed:0.5; 
+            constrainToNavMesh:true" position="0 1 5" rotation="0 0 0" drive game="play">
+
+                <a-entity id="camera" camera position="0 1 5" rotation="0 0 0" look-controls="pointerLockEnabled: false">     
+                    <a-entity id="wheel" position="0.13 -0.12 -0.163" scale="0.001 0.001 0.001" rotation="0 0 0" gltf-model="#steering_wheel"></a-entity>
+                    <a-box id="break" position="-0.425 -0.260 -0.371" scale="0.05 0.05 0.001" rotation="0 0 0" src="./assets/break.png" color="grey"></a-box>
+                    <a-box id="acc" position="-0.289 -0.23391 -0.37136" scale=" 0.05 0.1 0.001" rotation="0 0 0" src="./assets/acc.png" color="grey"></a-box>
+                    <a-entity id="speed" position="4 -5 -7.16344" text="font: kelsonsans; width:10; height: 5;value: 10"> 
+                        <a-entity id="unit" position="1 0 0" text="font: kelsonsans; width:10; height: 5; value: km/h"></a-entity> 
+                    </a-entity>
+                    <a-entity id="over" position="1.7 1 -3" text="font: kelsonsans; width:5; height: 5;value: Keep Trying!; color: black" visible="false"></a-entity>
+                    <a-entity id="timer" position="0 5 -7.1" text="font: kelsonsans; width:10; height: 5;value: 00:00; color: black"></a-entity>
+                    <a-entity id="stop" position="-6.5 -5.7 -7.16344" text="font: kelsonsans; width:5; height: 2;value: 'down Arrow Key'; color: black"></a-entity>
+                    <a-entity id="move" position="-3.8 -5.7 -7.16344" text="font: kelsonsans; width:5; height: 2;value: 'up Arrow Key'; color: black"></a-entity>
+                </a-entity>
+            </a-entity>
+        </a-scene>
+    </body>
+</html>
